@@ -8,7 +8,9 @@ import PlayingScreen from "./screens/Playing";
 import FinishedScreen from "./screens/Finished";
 import {Game} from "./types";
 
-const socket = io(process.env.REACT_APP_SERVER_URL || "/", {autoConnect: false});
+const socket = io(process.env.REACT_APP_SERVER_URL || "/", {
+  autoConnect: false,
+});
 
 function App() {
   const [game, setGame] = React.useState<null | Game>(null);
@@ -24,6 +26,7 @@ function App() {
   }
 
   function onGame(game: any) {
+    console.log(game);
     setGame(game);
     setStatus(game.status);
   }
@@ -35,6 +38,8 @@ function App() {
   React.useEffect(() => {
     socket.on("connect", () => setStatus("loading"));
     socket.on("disconnect", () => setStatus("disconnected"));
+
+    socket.on("timeout", () => console.log("TIMEOUT"));
 
     socket.on("game", onGame);
   }, []);
@@ -51,11 +56,9 @@ function App() {
           ))}
         </ul>
       )}
-      {game && status === "playing" && (
-        <PlayingScreen pokemon={game.pokemon} onGuess={handleGuess} />
-      )}
+      {game && status === "playing" && <PlayingScreen song={game.song} onGuess={handleGuess} />}
       {game && status === "finished" && (
-        <FinishedScreen pokemon={game.pokemon} winner={game.winner} />
+        <FinishedScreen song={game.songTitle} winner={game.winner} />
       )}
     </main>
   );

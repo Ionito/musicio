@@ -3,41 +3,58 @@ import React from "react";
 import {Game} from "../types";
 
 interface Props {
-  pokemon: Game["pokemon"];
+  song: Game["song"];
   onGuess: (guess: string) => void;
 }
 
-const PlayingScreen: React.FC<Props> = ({pokemon, onGuess}) => {
-  const [guess, setGuess] = React.useState<string>("");
+const PlayingScreen: React.FC<Props> = ({song, onGuess}) => {
+  // const [guessAuthor, setGuessAuthor] = React.useState<Song["author"]>("");
+  const [guessTitle, setGuessTitle] = React.useState<Game["song"]>("");
+  // const [guessYear, setGuessYear] = React.useState<Song["year"]>();
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    guess && onGuess(guess);
+    guessTitle && onGuess(guessTitle);
   }
 
   return (
     <>
-      <h1>Who's this Pokemon?</h1>
-      <img
-        alt="Pokemon"
-        height={512}
-        src={pokemon}
-        style={{
-          imageRendering: "pixelated",
-          filter: `brightness(0)`,
-          pointerEvents: "none",
-          userSelect: "none",
-        }}
-        width={512}
-      />
+      <h1>Escuchate este tema</h1>
+
+      <audio controls>
+        <source src={song} type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+
       <form style={{display: "inline-flex"}} onSubmit={handleSubmit}>
-        <input
+        <div className="nes-field">
+          <label htmlFor="name_field">Titulo</label>
+          <input
+            onChange={(event) => setGuessTitle(event.target.value)}
+            autoFocus
+            className="nes-input"
+            id="name_field"
+            type="text"
+          />
+        </div>
+
+        {/*    <div className="nes-field">
+          <label htmlFor="author">Autor</label>
+          <input className="nes-input" id="author" type="text" />
+        </div>
+
+        <div className="nes-field">
+          <label htmlFor="year">Año</label>
+          <input className="nes-input" id="year" type="text" />
+        </div> */}
+
+        {/*   <input
           autoFocus
           className="nes-input"
           data-test-id="input"
           onChange={(event) => setGuess(event.target.value)}
-        />
+        /> */}
         <button className="nes-btn is-primary" type="submit">
           Adivinar
         </button>

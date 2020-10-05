@@ -10,7 +10,6 @@ module.exports = {
     "tsconfigRootDir": __dirname
   },
   "rules": {
-    "no-console": "warn",
     "no-unused-vars": [
       "warn",
       {

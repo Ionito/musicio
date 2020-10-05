@@ -1,12 +1,14 @@
 import {Room} from "../types";
 
-import pokemonApi from "./pokemon";
+import musicApi from "./music";
 
 const rooms = new Map<string, Room>();
 
 const api = {
-  get: (name: string) => rooms.get(name) as Room,
-  update: (name: string, values: Partial<Room>) => {
+  get: (name: string) => {
+    return rooms.get(name) as Room;
+  },
+  update: async (name: string, values: Partial<Room>) => {
     const room = api.get(name);
 
     rooms.set(name, {
@@ -14,20 +16,20 @@ const api = {
       ...values,
     });
   },
-  setup: (name: string) => {
-    rooms.set(name, {
+  setup: async (name: string) => {
+    await rooms.set(name, {
       status: "playing",
-      pokemon: pokemonApi.random(),
+      song: await musicApi.random(),
       winner: null,
       players: [],
     });
   },
-  reset: (name: string) => {
+  reset: async (name: string) => {
     const room = api.get(name);
 
     rooms.set(name, {
       status: "playing",
-      pokemon: pokemonApi.random(),
+      song: await musicApi.random(),
       winner: null,
       players: room?.players || [],
     });
@@ -36,7 +38,7 @@ const api = {
     const room = api.get(name);
 
     api.update(name, {
-      players: room.players.concat({id, name: player}),
+      players: room.players.concat({id, name: player, points: 0}),
     });
   },
   disconnect: (name: string, id: string) => {
@@ -46,14 +48,15 @@ const api = {
       players: room.players.filter((player) => player.id !== id),
     });
   },
-  game: (name: string) => {
+  game: (name: string, showWins: boolean = false) => {
     const room = api.get(name);
 
     return {
       status: room.status,
       winner: room.winner,
       players: room.players,
-      pokemon: room.pokemon.image,
+      song: room.song.source,
+      songTitle: showWins ? room.song.title : "",
     };
   },
 };

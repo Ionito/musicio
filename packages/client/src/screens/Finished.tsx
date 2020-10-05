@@ -3,24 +3,19 @@ import React from "react";
 import {Game} from "../types";
 
 interface Props {
-  pokemon: Game["pokemon"];
+  song: Game["song"];
   winner: Game["winner"];
 }
 
-const FinishedScreen: React.FC<Props> = ({pokemon, winner}) => {
+const FinishedScreen: React.FC<Props> = ({song, winner}) => {
   return (
     <>
-      <h1>Game finished</h1>
-      <img
-        alt="Pokemon"
-        height={512}
-        src={pokemon}
-        style={{
-          imageRendering: "pixelated",
-        }}
-        width={512}
-      />
-      <h4>Winner: {winner}</h4>
+      <h1>{winner} adivinó!</h1>
+      <h2>La canción se llamaba:</h2>
+      <h2 style={{color: "red"}}>{song}</h2>
+      {/*  <h2>Y el autor de la misma</h2>
+      <h2>El año que fué hecha</h2>
+      <h4>Winner: {winner}</h4> */}
     </>
   );
 };

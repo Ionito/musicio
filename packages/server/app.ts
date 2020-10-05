@@ -1,15 +1,21 @@
 import * as io from "socket.io";
 
-import pokemonApi from "./api/pokemon";
+import musicApi from "./api/music";
 import roomApi from "./api/room";
 
 const server = io.listen(3000);
 
-server.on("connection", (socket) => {
+const timeout = (room: string) => {
+  console.log("timeout ROOM", room);
+  server.in(room).emit("timeout");
+};
+
+server.on("connection", async (socket) => {
   const {room, name} = socket.handshake.query;
 
   if (!roomApi.get(room)) {
-    roomApi.setup(room);
+    await roomApi.setup(room);
+    setTimeout(() => timeout(room), 10000);
   }
 
   socket.join(room, () => {
@@ -18,24 +24,30 @@ server.on("connection", (socket) => {
     server.in(room).emit("game", roomApi.game(room));
   });
 
-  socket.on("guess", (guess) => {
+  socket.on("guess", async (guess) => {
     const state = roomApi.get(room);
 
     if (!state || state.status !== "playing") {
       return;
     }
 
-    if (pokemonApi.matches(guess, state.pokemon.name)) {
+    if (musicApi.matches(guess, state.song.title)) {
+      // un usuario acierta
+
+      // pregunto si quedan jugadores sin acertar
+
+      // si quedan, agrego al jugador que acerto a la lista de ganadores y no hago nada
+
+      // si no quedan, termino la partida
       roomApi.update(room, {
         status: "finished",
         winner: name,
       });
 
-      server.in(room).emit("game", roomApi.game(room));
+      server.in(room).emit("game", roomApi.game(room, true));
 
-      setTimeout(() => {
-        roomApi.reset(room);
-
+      setTimeout(async () => {
+        await roomApi.reset(room);
         server.in(room).emit("game", roomApi.game(room));
       }, 3000);
     }
