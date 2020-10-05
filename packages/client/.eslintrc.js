@@ -18,7 +18,8 @@ module.exports = {
   },
   "rules": {
     "no-console": "warn",
-    "no-use-before-define": "off",
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': ['error', {variables: false}],
     "no-unused-vars": [
       "warn",
       {
