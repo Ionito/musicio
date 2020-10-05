@@ -18,6 +18,7 @@ module.exports = {
   },
   "rules": {
     "no-console": "warn",
+    "no-use-before-define": "off",
     "no-unused-vars": [
       "warn",
       {
