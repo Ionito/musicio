@@ -3,7 +3,10 @@ import * as io from "socket.io";
 import musicApi from "./api/music";
 import roomApi from "./api/room";
 
-const server = io.listen(3000);
+const PORT = process.env.PORT || 3000;
+console.log("listening on port ", PORT);
+
+const server = io.listen(PORT);
 
 const timeout = (room: string) => {
   console.log("timeout ROOM", room);
