@@ -3,9 +3,9 @@ import io from "socket.io-client";
 
 import ConnectScreen from "./screens/Connect";
 import DisconnectedScreen from "./screens/Disconnected";
+import FinishedScreen from "./screens/Finished";
 import LoadingScreen from "./screens/Loading";
 import PlayingScreen from "./screens/Playing";
-import FinishedScreen from "./screens/Finished";
 import {Game} from "./types";
 
 const socket = io(process.env.REACT_APP_SERVER_URL || "/", {

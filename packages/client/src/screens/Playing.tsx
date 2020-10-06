@@ -7,7 +7,7 @@ interface Props {
   onGuess: (guess: string) => void;
 }
 
-const PlayingScreen: React.FC<Props> = ({song, onGuess}) => {
+const PlayingScreen: React.FC<Props> = ({song, onGuess}: Props) => {
   // const [guessAuthor, setGuessAuthor] = React.useState<Song["author"]>("");
   const [guessTitle, setGuessTitle] = React.useState<Game["song"]>("");
   // const [guessYear, setGuessYear] = React.useState<Song["year"]>();
