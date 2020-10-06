@@ -16,7 +16,7 @@ function App() {
   const [game, setGame] = React.useState<null | Game>(null);
   const [status, setStatus] = React.useState<Game['status']>('init');
 
-  console.log('PUERTO-BACK', process.env.REACT_APP_SERVER_URL);
+  console.log('PUERTO-BACK-1', process.env.REACT_APP_SERVER_URL);
 
   function handleConnect(name: string, room: string) {
     console.log('PUERTO', process.env.REACT_APP_SERVER_URL);
