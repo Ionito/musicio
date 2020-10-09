@@ -5,7 +5,7 @@ import * as mm from "music-metadata";
 
 import {Song} from "../types";
 
-const TOTAL_SONGS = 310;
+const TOTAL_SONGS = 320;
 
 const generateString = (length: number) =>
   Array(length)

@@ -1,3 +1,5 @@
+import './styles/styles.css';
+
 import React from 'react';
 import io from 'socket.io-client';
 
@@ -7,8 +9,6 @@ import FinishedScreen from './screens/Finished';
 import LoadingScreen from './screens/Loading';
 import PlayingScreen from './screens/Playing';
 import { Game, Song } from './types';
-
-import './styles/styles.css';
 
 const socket = io(process.env.REACT_APP_SERVER_URL || '/', {
   autoConnect: false,

@@ -19,6 +19,7 @@ export interface Room {
   players: Player[];
   song: Song;
   songTitle?: string;
+  /* timerId: number | null; */
 }
 /* 
 export interface Game extends Omit<Room, "pokemon"> {
