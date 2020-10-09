@@ -1,4 +1,3 @@
-import * as util from "util";
 import * as fs from "fs";
 
 import fetch from "node-fetch";
@@ -62,10 +61,8 @@ const getMetadata = async (url: string) => {
       .then(() => {
         mm.parseFile(`./test-${tempFile}.mp3`)
           .then((metadata) => {
-            //console.log(util.inspect(metadata, {showHidden: false, depth: null}));
             fs.unlinkSync(`./test-${tempFile}.mp3`);
             resolve(metadata.common);
-            // meta["title"] = metadata.common.title;
           })
           .catch((err) => {
             reject(err.message);
@@ -81,8 +78,6 @@ const random = async () => {
 
   const metadata: any = await getMetadata(url);
 
-  console.log(metadata);
-
   let res: Song = {
     title: metadata?.title,
     author: metadata?.artist,
@@ -91,7 +86,6 @@ const random = async () => {
   };
 
   console.log("res", res);
-
   return res;
 };
 

@@ -6,7 +6,9 @@ import DisconnectedScreen from './screens/Disconnected';
 import FinishedScreen from './screens/Finished';
 import LoadingScreen from './screens/Loading';
 import PlayingScreen from './screens/Playing';
-import { Game } from './types';
+import { Game, Song } from './types';
+
+import './styles/styles.css';
 
 const socket = io(process.env.REACT_APP_SERVER_URL || '/', {
   autoConnect: false,
@@ -15,11 +17,10 @@ const socket = io(process.env.REACT_APP_SERVER_URL || '/', {
 function App() {
   const [game, setGame] = React.useState<null | Game>(null);
   const [status, setStatus] = React.useState<Game['status']>('init');
-
-  console.log('PUERTO-BACK-1', process.env.REACT_APP_SERVER_URL);
+  const [user, setUser] = React.useState('');
 
   function handleConnect(name: string, room: string) {
-    console.log('PUERTO', process.env.REACT_APP_SERVER_URL);
+    setUser(name);
     socket.io.opts.query = {
       name,
       room,
@@ -29,23 +30,26 @@ function App() {
   }
 
   function onGame(game: any) {
-    console.log(game);
     setGame(game);
     setStatus(game.status);
   }
 
-  function handleGuess(guess: string) {
+  function handleGuess(guess: Song) {
     socket.emit('guess', guess);
   }
 
   React.useEffect(() => {
-    socket.on('connect', () => setStatus('loading'));
+    socket.on('connect', () => {
+      setStatus('loading');
+    });
     socket.on('disconnect', () => setStatus('disconnected'));
 
     socket.on('timeout', () => console.log('TIMEOUT'));
-
     socket.on('game', onGame);
   }, []);
+
+  const matchTitle = (game && game.guessedTitles.includes(user)) || false;
+  const matchAuthor = (game && game.guessedAuthors.includes(user)) || false;
 
   return (
     <main>
@@ -55,15 +59,29 @@ function App() {
       {Boolean(game?.players?.length) && (
         <ul className="nes-list is-disc" id="players">
           {game?.players.map(player => (
-            <li key={player.id}>{player.name}</li>
+            <li key={player.id}>
+              <span style={{ marginRight: 10 }}>{player.name}</span>
+              <span>{`  ${player.points}Pts.  `}</span>
+              {game.guessedAuthors.includes(player.name) && (
+                <span className="nes-text is-error">*</span>
+              )}
+              {game.guessedTitles.includes(player.name) && (
+                <span className="nes-text is-primary">*</span>
+              )}
+            </li>
           ))}
         </ul>
       )}
       {game && status === 'playing' && (
-        <PlayingScreen song={game.song} onGuess={handleGuess} />
+        <PlayingScreen
+          song={game.song}
+          onGuess={handleGuess}
+          matchT={matchTitle}
+          matchA={matchAuthor}
+        />
       )}
       {game && status === 'finished' && (
-        <FinishedScreen song={game.songTitle} winner={game.winner} />
+        <FinishedScreen song={game.song} winner={game.winner} />
       )}
     </main>
   );

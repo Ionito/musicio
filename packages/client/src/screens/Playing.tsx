@@ -1,61 +1,90 @@
-import React from "react";
+import React from 'react';
+import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 
-import {Game} from "../types";
+import { Game, Song } from '../types';
 
 interface Props {
-  song: Game["song"];
-  onGuess: (guess: string) => void;
+  song: Game['song'];
+  onGuess: (guess: Song) => void;
+  matchT: boolean;
+  matchA: boolean;
 }
 
-const PlayingScreen: React.FC<Props> = ({song, onGuess}: Props) => {
-  // const [guessAuthor, setGuessAuthor] = React.useState<Song["author"]>("");
-  const [guessTitle, setGuessTitle] = React.useState<Game["song"]>("");
-  // const [guessYear, setGuessYear] = React.useState<Song["year"]>();
+const audioPlayer = (source: string | undefined) => (
+  <AudioPlayer
+    autoPlay
+    src={source}
+    showJumpControls={false}
+    customProgressBarSection={[
+      RHAP_UI.CURRENT_TIME,
+      <div key="pepe" style={{ flex: 'auto' }}></div>,
+      RHAP_UI.DURATION,
+    ]}
+    customAdditionalControls={[]}
+    /*   onPlay={e => console.log("onPlay")} */
+  />
+);
+
+const PlayingScreen: React.FC<Props> = ({
+  song,
+  onGuess,
+  matchT,
+  matchA,
+}: Props) => {
+  const [guessAuthor, setGuessAuthor] = React.useState('');
+  const [guessTitle, setGuessTitle] = React.useState('');
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    guessTitle && onGuess(guessTitle);
+    const adivinaSong = { title: guessTitle, author: guessAuthor } as Song;
+    (guessTitle || guessAuthor) && onGuess(adivinaSong);
   }
 
   return (
     <>
       <h1>Escuchate este tema</h1>
+      <div style={{ position: 'relative', width: 384 }}>
+        {audioPlayer(song.source)}
+      </div>
 
-      <audio controls>
-        <source src={song} type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
-
-      <form style={{display: "inline-flex"}} onSubmit={handleSubmit}>
-        <div className="nes-field">
-          <label htmlFor="name_field">Titulo</label>
+      <form
+        style={{ display: 'inline-flex', flexDirection: 'column' }}
+        onSubmit={handleSubmit}
+      >
+        <div className="nes-field" style={{ marginTop: 20 }}>
+          <label className="nes-text is-primary" htmlFor="name_field">
+            Titulo
+          </label>
           <input
-            onChange={(event) => setGuessTitle(event.target.value)}
+            disabled={matchT}
+            onChange={event => setGuessTitle(event.target.value)}
             autoFocus
-            className="nes-input"
+            className={`nes-input ${matchT ? 'is-success' : ''}`}
             id="name_field"
             type="text"
           />
         </div>
-
-        {/*    <div className="nes-field">
-          <label htmlFor="author">Autor</label>
-          <input className="nes-input" id="author" type="text" />
+        <div className="nes-field" style={{ marginTop: 15 }}>
+          <label className="nes-text is-error" htmlFor="author">
+            Autor
+          </label>
+          <input
+            disabled={matchA}
+            onChange={event => setGuessAuthor(event.target.value)}
+            className={`nes-input ${matchA ? 'is-success' : ''}`}
+            id="author"
+            type="text"
+          />
         </div>
-
-        <div className="nes-field">
-          <label htmlFor="year">Año</label>
-          <input className="nes-input" id="year" type="text" />
-        </div> */}
-
-        {/*   <input
-          autoFocus
-          className="nes-input"
-          data-test-id="input"
-          onChange={(event) => setGuess(event.target.value)}
-        /> */}
-        <button className="nes-btn is-primary" type="submit">
+        <button
+          disabled={matchA && matchT}
+          className={`nes-btn is-primary ${
+            matchA && matchT ? 'is-disabled' : ''
+          }`} //is-disabled
+          type="submit"
+          style={{ marginTop: 15 }}
+        >
           Adivinar
         </button>
       </form>

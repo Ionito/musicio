@@ -7,13 +7,15 @@ export interface Player {
 export interface Song {
   title: string;
   author: string;
-  year: number;
-  source: string;
+  year?: number;
+  source?: string;
 }
 
 export interface Room {
   status: "playing" | "finished";
-  winner: string | null;
+  winner: string[];
+  guessedTitles: string[];
+  guessedAuthors: string[];
   players: Player[];
   song: Song;
   songTitle?: string;

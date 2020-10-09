@@ -20,7 +20,9 @@ const api = {
     await rooms.set(name, {
       status: "playing",
       song: await musicApi.random(),
-      winner: null,
+      guessedTitles: [],
+      guessedAuthors: [],
+      winner: [],
       players: [],
     });
   },
@@ -30,7 +32,9 @@ const api = {
     rooms.set(name, {
       status: "playing",
       song: await musicApi.random(),
-      winner: null,
+      winner: [],
+      guessedTitles: [],
+      guessedAuthors: [],
       players: room?.players || [],
     });
   },
@@ -48,15 +52,16 @@ const api = {
       players: room.players.filter((player) => player.id !== id),
     });
   },
-  game: (name: string, showWins: boolean = false) => {
+  game: (name: string) => {
     const room = api.get(name);
 
     return {
       status: room.status,
       winner: room.winner,
       players: room.players,
-      song: room.song.source,
-      songTitle: showWins ? room.song.title : "",
+      song: room.song,
+      guessedTitles: room.guessedTitles,
+      guessedAuthors: room.guessedAuthors,
     };
   },
 };
