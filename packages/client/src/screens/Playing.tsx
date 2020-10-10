@@ -3,8 +3,8 @@ import 'react-h5-audio-player/lib/styles.css';
 import React from 'react';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 
-import { Game, Song } from '../types';
 import SplitText from '../components/SplitText';
+import { Game, Song } from '../types';
 
 interface Props {
   song: Game['song'];

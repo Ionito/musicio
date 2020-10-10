@@ -36,11 +36,14 @@ main {
   padding: 2px 5px;
 }
 
-.progress-counter {
+#info-right {
   position: absolute;
   top: 24px;
-  height: 34px;
   right: 24px;
+}
+
+.progress-counter {
+  height: 34px;
   width: 300px;
 }
 

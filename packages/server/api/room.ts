@@ -3,6 +3,7 @@ import {Room} from "../types";
 import musicApi from "./music";
 
 const rooms = new Map<string, Room>();
+const GAME_ROUNDS = 4;
 
 const api = {
   get: (name: string) => {
@@ -25,6 +26,7 @@ const api = {
       winner: [],
       players: [],
       timerId: null,
+      rounds: GAME_ROUNDS,
     });
   },
   reset: async (name: string) => {
@@ -38,6 +40,25 @@ const api = {
       guessedAuthors: [],
       players: room?.players || [],
       timerId: null,
+      rounds: room.rounds - 1,
+    });
+  },
+  resetAll: async (name: string) => {
+    const room = api.get(name);
+
+    const newPlayers = room?.players.map((player) => {
+      return {...player, points: 0};
+    });
+
+    rooms.set(name, {
+      status: "playing",
+      song: await musicApi.random(),
+      winner: [],
+      guessedTitles: [],
+      guessedAuthors: [],
+      players: newPlayers || [],
+      timerId: null,
+      rounds: GAME_ROUNDS,
     });
   },
   connect: (name: string, id: string, player: string) => {
@@ -64,6 +85,7 @@ const api = {
       song: room.song,
       guessedTitles: room.guessedTitles,
       guessedAuthors: room.guessedAuthors,
+      round: room.rounds,
     };
   },
 };

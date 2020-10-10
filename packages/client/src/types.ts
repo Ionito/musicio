@@ -10,7 +10,7 @@ export interface Game {
     | 'playing'
     | 'disconnected'
     | 'finished'
-    | 'finish';
+    | 'finishAll';
   song: Song;
   winner?: string[];
   guessedTitles: string[];

@@ -32,16 +32,35 @@ const finishGameAndRestart = (room: string) => {
   //pregunto si es el final de la partida
   //pregunto si sigue habiendo gente antes de tirar la proxima cancion
   if (roomToreset.players.length !== 0) {
-    setTimeout(async () => {
-      await roomApi.reset(room);
+    if (roomToreset.rounds > 1) {
+      setTimeout(async () => {
+        await roomApi.reset(room);
 
-      const timeoutId: NodeJS.Timeout = setTimeout(() => timeout(room), TIME_TO_ASSERT);
+        const timeoutId: NodeJS.Timeout = setTimeout(() => timeout(room), TIME_TO_ASSERT);
+        roomApi.update(room, {
+          timerId: timeoutId,
+        });
+        server.in(room).emit("startTimer");
+        server.in(room).emit("game", roomApi.game(room));
+      }, 2500);
+    } else {
       roomApi.update(room, {
-        timerId: timeoutId,
+        status: "finishAll",
       });
-      server.in(room).emit("startTimer");
       server.in(room).emit("game", roomApi.game(room));
-    }, 2500);
+
+      //el juego vuelve a empezar solo en 30 seg
+      setTimeout(async () => {
+        await roomApi.resetAll(room);
+
+        const timeoutId: NodeJS.Timeout = setTimeout(() => timeout(room), TIME_TO_ASSERT);
+        roomApi.update(room, {
+          timerId: timeoutId,
+        });
+        server.in(room).emit("startTimer");
+        server.in(room).emit("game", roomApi.game(room));
+      }, 30000);
+    }
   }
 };
 
