@@ -7,24 +7,42 @@ import roomApi from "./api/room";
 const PORT = process.env.PORT || 3000;
 
 const server = io.listen(PORT);
-const MAX_POINTS = 21;
+const MAX_POINTS = 5;
+const TIME_TO_ASSERT = 2 * 60000; //dos minutos
 
 const timeout = (room: string) => {
-  console.log("timeout ROOM", room);
-  server.in(room).emit("timeout");
+  console.log("Game Finish - Reach time", room);
+  finishGameAndRestart(room);
 };
 
 const finishGameAndRestart = (room: string) => {
+  server.in(room).emit("timeout");
+
   roomApi.update(room, {
     status: "finished",
   });
 
+  const roomToreset = roomApi.get(room);
+  if (roomToreset.timerId) {
+    clearTimeout(roomToreset.timerId);
+  }
+
   server.in(room).emit("game", roomApi.game(room));
 
-  setTimeout(async () => {
-    await roomApi.reset(room);
-    server.in(room).emit("game", roomApi.game(room));
-  }, 5000);
+  //pregunto si es el final de la partida
+  //pregunto si sigue habiendo gente antes de tirar la proxima cancion
+  if (roomToreset.players.length !== 0) {
+    setTimeout(async () => {
+      await roomApi.reset(room);
+
+      const timeoutId: NodeJS.Timeout = setTimeout(() => timeout(room), TIME_TO_ASSERT);
+      roomApi.update(room, {
+        timerId: timeoutId,
+      });
+      server.in(room).emit("startTimer");
+      server.in(room).emit("game", roomApi.game(room));
+    }, 2500);
+  }
 };
 
 server.on("connection", async (socket) => {
@@ -32,19 +50,22 @@ server.on("connection", async (socket) => {
 
   if (!roomApi.get(room)) {
     await roomApi.setup(room);
-    setTimeout(() => timeout(room), 60000 * 2);
+    const timeoutId: NodeJS.Timeout = setTimeout(() => timeout(room), TIME_TO_ASSERT);
+    console.log("SET TIME OUT SETUP");
+
+    roomApi.update(room, {
+      timerId: timeoutId,
+    });
   }
 
   socket.join(room, () => {
     roomApi.connect(room, socket.id, name);
-
+    server.in(room).emit("startTimer");
     server.in(room).emit("game", roomApi.game(room));
   });
 
   socket.on("guess", async (guess: Song) => {
     const state = roomApi.get(room);
-    console.log("on guess - server", guess);
-    console.log("on state - server", state);
 
     if (!state || state.status !== "playing") {
       return;
@@ -58,25 +79,25 @@ server.on("connection", async (socket) => {
     let currentWinners = state.winner;
     let currentPlayers = state.players;
 
-    if (matchAuthor && !currentGuessedAuthors.includes(name)) {
-      currentGuessedAuthors.push(name);
+    if (matchAuthor && !currentGuessedAuthors.includes(socket.id)) {
       const pointToAssign = MAX_POINTS - currentGuessedAuthors.length;
-      currentPlayers[currentPlayers.findIndex((user) => user.name === name)].points +=
+      currentPlayers[currentPlayers.findIndex((user) => user.id === socket.id)].points +=
         pointToAssign > 0 ? pointToAssign : 0;
+      currentGuessedAuthors.push(socket.id);
     }
 
-    if (matchTitle && !currentGuessedTitles.includes(name)) {
-      currentGuessedTitles.push(name);
+    if (matchTitle && !currentGuessedTitles.includes(socket.id)) {
       const pointToAssign = MAX_POINTS - currentGuessedTitles.length;
-      currentPlayers[currentPlayers.findIndex((user) => user.name === name)].points +=
+      currentPlayers[currentPlayers.findIndex((user) => user.id === socket.id)].points +=
         pointToAssign > 0 ? pointToAssign : 0;
+      currentGuessedTitles.push(socket.id);
     }
 
     if (matchAuthor && matchTitle) {
-      currentWinners.push(name);
       const pointToAssign = MAX_POINTS - currentWinners.length;
-      currentPlayers[currentPlayers.findIndex((user) => user.name === name)].points +=
+      currentPlayers[currentPlayers.findIndex((user) => user.id === socket.id)].points +=
         pointToAssign > 0 ? pointToAssign : 0;
+      currentWinners.push(socket.id);
     }
 
     roomApi.update(room, {
@@ -85,12 +106,13 @@ server.on("connection", async (socket) => {
       winner: [...currentWinners],
     });
 
+    console.log(currentGuessedAuthors);
+
     server.in(room).emit("game", roomApi.game(room));
 
     //pregunto si todos los usuarios adivinaron y termino la partida
-
     if (currentWinners.length === state.players.length) {
-      console.log("finish and restart");
+      console.log("Game Finish - all guess");
       finishGameAndRestart(room);
     }
   });

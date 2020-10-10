@@ -24,6 +24,7 @@ const api = {
       guessedAuthors: [],
       winner: [],
       players: [],
+      timerId: null,
     });
   },
   reset: async (name: string) => {
@@ -36,6 +37,7 @@ const api = {
       guessedTitles: [],
       guessedAuthors: [],
       players: room?.players || [],
+      timerId: null,
     });
   },
   connect: (name: string, id: string, player: string) => {

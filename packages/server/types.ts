@@ -19,7 +19,7 @@ export interface Room {
   players: Player[];
   song: Song;
   songTitle?: string;
-  /* timerId: number | null; */
+  timerId: NodeJS.Timeout | null;
 }
 /* 
 export interface Game extends Omit<Room, "pokemon"> {

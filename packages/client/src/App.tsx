@@ -1,6 +1,4 @@
-import './styles/styles.css';
-
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
 
 import ConnectScreen from './screens/Connect';
@@ -8,22 +6,31 @@ import DisconnectedScreen from './screens/Disconnected';
 import FinishedScreen from './screens/Finished';
 import LoadingScreen from './screens/Loading';
 import PlayingScreen from './screens/Playing';
+import UserList from './components/UserList';
 import { Game, Song } from './types';
 
 const socket = io(process.env.REACT_APP_SERVER_URL || '/', {
   autoConnect: false,
 });
 
+const TIMER_TOTAL = 2 * 60; // sec
+
 function App() {
-  const [game, setGame] = React.useState<null | Game>(null);
-  const [status, setStatus] = React.useState<Game['status']>('init');
-  const [user, setUser] = React.useState('');
+  const [game, setGame] = useState<null | Game>(null);
+  const [status, setStatus] = useState<Game['status']>('init');
+  const [user, setUser] = useState('');
+  const [userId, setUserId] = useState('');
+  const [counter, setCounter] = useState(TIMER_TOTAL);
+  const [start, setStart] = useState(false);
+  const timer = useRef<NodeJS.Timeout | false>(false);
+  const valueCounter = (100 / TIMER_TOTAL) * counter;
 
   function handleConnect(name: string, room: string) {
     setUser(name);
+    const roomNormal = room.toLowerCase();
     socket.io.opts.query = {
       name,
-      room,
+      room: roomNormal,
     };
 
     socket.open();
@@ -38,39 +45,55 @@ function App() {
     socket.emit('guess', guess);
   }
 
+  useEffect(() => {
+    if (start === true) {
+      timer.current =
+        counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+    }
+
+    console.log(counter);
+    return () => {
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+    };
+  }, [start, counter, setCounter]);
+
   React.useEffect(() => {
     socket.on('connect', () => {
       setStatus('loading');
+      console.log('SESSIONID', socket.id);
+      setUserId(socket.id);
     });
     socket.on('disconnect', () => setStatus('disconnected'));
-
-    socket.on('timeout', () => console.log('TIMEOUT'));
+    socket.on('startTimer', () => {
+      console.log('start timer');
+      setStart(true);
+    });
+    socket.on('timeout', () => {
+      setStart(false);
+      setCounter(TIMER_TOTAL);
+    });
     socket.on('game', onGame);
   }, []);
 
-  const matchTitle = (game && game.guessedTitles.includes(user)) || false;
-  const matchAuthor = (game && game.guessedAuthors.includes(user)) || false;
+  const matchTitle = (game && game.guessedTitles.includes(userId)) || false;
+  const matchAuthor = (game && game.guessedAuthors.includes(userId)) || false;
 
   return (
     <main>
       {status === 'init' && <ConnectScreen onConnect={handleConnect} />}
       {status === 'disconnected' && <DisconnectedScreen />}
       {status === 'loading' && <LoadingScreen />}
-      {Boolean(game?.players?.length) && (
-        <ul className="nes-list is-disc" id="players">
-          {game?.players.map(player => (
-            <li key={player.id}>
-              <span style={{ marginRight: 10 }}>{player.name}</span>
-              <span>{`  ${player.points}Pts.  `}</span>
-              {game.guessedAuthors.includes(player.name) && (
-                <span className="nes-text is-error">*</span>
-              )}
-              {game.guessedTitles.includes(player.name) && (
-                <span className="nes-text is-primary">*</span>
-              )}
-            </li>
-          ))}
-        </ul>
+      {Boolean(game?.players?.length) && <UserList game={game} />}
+      {game && status === 'playing' && (
+        <progress
+          className="progress-counter nes-progress is-error"
+          value={valueCounter}
+          max="100"
+        >
+          tiempo
+        </progress>
       )}
       {game && status === 'playing' && (
         <PlayingScreen
@@ -81,7 +104,11 @@ function App() {
         />
       )}
       {game && status === 'finished' && (
-        <FinishedScreen song={game.song} winner={game.winner} />
+        <FinishedScreen
+          song={game.song}
+          winner={game.winner}
+          players={game.players}
+        />
       )}
     </main>
   );

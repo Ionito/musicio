@@ -4,6 +4,7 @@ import React from 'react';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 
 import { Game, Song } from '../types';
+import SplitText from '../components/SplitText';
 
 interface Props {
   song: Game['song'];
@@ -44,7 +45,10 @@ const PlayingScreen: React.FC<Props> = ({
 
   return (
     <>
-      <h1>Escuchate este tema</h1>
+      <h1>
+        <SplitText copy="Escuchate" role="heading" /> <br />
+        <SplitText copy="este tema" role="heading" />
+      </h1>
       <div style={{ position: 'relative', width: 384 }}>
         {audioPlayer(song.source)}
       </div>
