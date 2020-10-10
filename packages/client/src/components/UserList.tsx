@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Game } from '../types';
 interface Props {
   game: Game | null;

@@ -1,12 +1,13 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
 
+import UserList from './components/UserList';
 import ConnectScreen from './screens/Connect';
 import DisconnectedScreen from './screens/Disconnected';
+import FinishAllScreen from './screens/FinishAll';
 import FinishedScreen from './screens/Finished';
 import LoadingScreen from './screens/Loading';
 import PlayingScreen from './screens/Playing';
-import UserList from './components/UserList';
 import { Game, Song } from './types';
 
 const socket = io(process.env.REACT_APP_SERVER_URL || '/', {
@@ -87,13 +88,16 @@ function App() {
       {status === 'loading' && <LoadingScreen />}
       {Boolean(game?.players?.length) && <UserList game={game} />}
       {game && status === 'playing' && (
-        <progress
-          className="progress-counter nes-progress is-error"
-          value={valueCounter}
-          max="100"
-        >
-          tiempo
-        </progress>
+        <div id="info-right">
+          <progress
+            className="progress-counter nes-progress is-error"
+            value={valueCounter}
+            max="100"
+          >
+            tiempo
+          </progress>
+          <div>{`Round ${game.round} `}</div>
+        </div>
       )}
       {game && status === 'playing' && (
         <PlayingScreen
@@ -109,6 +113,9 @@ function App() {
           winner={game.winner}
           players={game.players}
         />
+      )}
+      {game && status === 'finishAll' && (
+        <FinishAllScreen players={game.players} />
       )}
     </main>
   );
