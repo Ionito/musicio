@@ -16,16 +16,17 @@ const FinishAll: React.FC<Props> = ({ players }) => {
   const ganador = getHighScorePlayer(players);
   return (
     <div>
-      <p style={{ width: 370 }}>
+      <p style={{ width: 420, textAlign: 'center' }}>
         Se prenden las luces.. suena Brillante sobre el Mic .. significa que..
         se terminó la fiestita!
       </p>
+      {/* <i className="nes-icon trophy is-large"></i> */}
       <h1>
         <SplitText copy={ganador.name} role="heading" />
       </h1>
       <h1>es el ganador</h1>
       <h1>{`con ${ganador.points} puntos`}</h1>
-      <p style={{ width: 370 }}>
+      <p style={{ width: 420, textAlign: 'center' }}>
         El juego volvera a empezar nuevamente en 30 segundos :-)
       </p>
     </div>

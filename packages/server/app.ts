@@ -93,6 +93,10 @@ server.on("connection", async (socket) => {
     const matchTitle = musicApi.matches(guess.title, state.song.title);
     const matchAuthor = musicApi.matches(guess.author, state.song.author);
 
+    if (!matchTitle || !matchAuthor) {
+      return;
+    }
+
     let currentGuessedAuthors = state.guessedAuthors;
     let currentGuessedTitles = state.guessedTitles;
     let currentWinners = state.winner;
@@ -125,12 +129,13 @@ server.on("connection", async (socket) => {
       winner: [...currentWinners],
     });
 
-    console.log(currentGuessedAuthors);
-
     server.in(room).emit("game", roomApi.game(room));
 
-    //pregunto si todos los usuarios adivinaron y termino la partida
-    if (currentWinners.length === state.players.length) {
+    //pregunto si la mitad de los participantes adivinaron y termino la partida
+    if (
+      state.players.length === 1 ||
+      currentWinners.length >= Math.floor(state.players.length / 2)
+    ) {
       console.log("Game Finish - all guess");
       finishGameAndRestart(room);
     }

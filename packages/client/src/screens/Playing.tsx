@@ -60,6 +60,12 @@ const PlayingScreen: React.FC<Props> = ({
         <div className="nes-field" style={{ marginTop: 20 }}>
           <label className="nes-text is-primary" htmlFor="name_field">
             Titulo
+            {matchT && (
+              <i
+                className="nes-icon coin is-small"
+                style={{ marginLeft: 10 }}
+              ></i>
+            )}
           </label>
           <input
             disabled={matchT}
@@ -73,6 +79,12 @@ const PlayingScreen: React.FC<Props> = ({
         <div className="nes-field" style={{ marginTop: 15 }}>
           <label className="nes-text is-error" htmlFor="author">
             Autor
+            {matchA && (
+              <i
+                className="nes-icon coin is-small"
+                style={{ marginLeft: 10 }}
+              ></i>
+            )}
           </label>
           <input
             disabled={matchA}
