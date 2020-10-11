@@ -93,7 +93,7 @@ server.on("connection", async (socket) => {
     const matchTitle = musicApi.matches(guess.title, state.song.title);
     const matchAuthor = musicApi.matches(guess.author, state.song.author);
 
-    if (!matchTitle || !matchAuthor) {
+    if (!matchTitle && !matchAuthor) {
       return;
     }
 
