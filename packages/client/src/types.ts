@@ -7,10 +7,12 @@ export interface Game {
   status:
     | 'init'
     | 'loading'
+    | 'lobby'
     | 'playing'
     | 'disconnected'
     | 'finished'
     | 'finishAll';
+  ownerId: null | string;
   song: Song;
   winner?: string[];
   guessedTitles: string[];

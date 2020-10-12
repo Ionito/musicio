@@ -69,16 +69,19 @@ server.on("connection", async (socket) => {
 
   if (!roomApi.get(room)) {
     await roomApi.setup(room);
-    const timeoutId: NodeJS.Timeout = setTimeout(() => timeout(room), TIME_TO_ASSERT);
-    console.log("SET TIME OUT SETUP");
-
-    roomApi.update(room, {
-      timerId: timeoutId,
-    });
   }
 
   socket.join(room, () => {
     roomApi.connect(room, socket.id, name);
+    server.in(room).emit("game", roomApi.game(room));
+  });
+
+  socket.on("startGame", () => {
+    const timeoutId: NodeJS.Timeout = setTimeout(() => timeout(room), TIME_TO_ASSERT);
+    roomApi.update(room, {
+      status: "playing",
+      timerId: timeoutId,
+    });
     server.in(room).emit("startTimer");
     server.in(room).emit("game", roomApi.game(room));
   });
@@ -143,7 +146,6 @@ server.on("connection", async (socket) => {
 
   socket.on("disconnect", () => {
     roomApi.disconnect(room, socket.id);
-
     server.in(room).emit("game", roomApi.game(room));
   });
 });

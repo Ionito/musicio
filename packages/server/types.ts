@@ -12,7 +12,7 @@ export interface Song {
 }
 
 export interface Room {
-  status: "playing" | "finished" | "finishAll";
+  status: "playing" | "finished" | "finishAll" | "lobby";
   winner: string[];
   guessedTitles: string[];
   guessedAuthors: string[];
@@ -21,6 +21,7 @@ export interface Room {
   songTitle?: string;
   timerId: NodeJS.Timeout | null;
   rounds: number;
+  ownerId: null | string;
 }
 /* 
 export interface Game extends Omit<Room, "pokemon"> {

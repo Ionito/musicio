@@ -7,6 +7,7 @@ import DisconnectedScreen from './screens/Disconnected';
 import FinishAllScreen from './screens/FinishAll';
 import FinishedScreen from './screens/Finished';
 import LoadingScreen from './screens/Loading';
+import LobbyScreen from './screens/Lobby';
 import PlayingScreen from './screens/Playing';
 import { Game, Song } from './types';
 
@@ -19,7 +20,6 @@ const TIMER_TOTAL = 2 * 60; // sec
 function App() {
   const [game, setGame] = useState<null | Game>(null);
   const [status, setStatus] = useState<Game['status']>('init');
-  const [user, setUser] = useState('');
   const [userId, setUserId] = useState('');
   const [counter, setCounter] = useState(TIMER_TOTAL);
   const [start, setStart] = useState(false);
@@ -27,7 +27,6 @@ function App() {
   const valueCounter = (100 / TIMER_TOTAL) * counter;
 
   function handleConnect(name: string, room: string) {
-    setUser(name);
     const roomNormal = room.toLowerCase();
     socket.io.opts.query = {
       name,
@@ -35,6 +34,10 @@ function App() {
     };
 
     socket.open();
+  }
+
+  function startGame() {
+    socket.emit('startGame');
   }
 
   function onGame(game: any) {
@@ -52,7 +55,6 @@ function App() {
         counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
     }
 
-    console.log(counter);
     return () => {
       if (timer.current) {
         clearTimeout(timer.current);
@@ -63,7 +65,6 @@ function App() {
   React.useEffect(() => {
     socket.on('connect', () => {
       setStatus('loading');
-      console.log('SESSIONID', socket.id);
       setUserId(socket.id);
     });
     socket.on('disconnect', () => setStatus('disconnected'));
@@ -86,6 +87,9 @@ function App() {
       {status === 'init' && <ConnectScreen onConnect={handleConnect} />}
       {status === 'disconnected' && <DisconnectedScreen />}
       {status === 'loading' && <LoadingScreen />}
+      {status === 'lobby' && (
+        <LobbyScreen isAdmin={game?.ownerId === userId} onStart={startGame} />
+      )}
       {Boolean(game?.players?.length) && <UserList game={game} />}
       {game && status === 'playing' && (
         <div id="info-right">
