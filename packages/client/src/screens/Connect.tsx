@@ -32,7 +32,7 @@ const ConnectScreen: React.FC<Props> = ({ onConnect }) => {
       </h1>
       <form className="nes-container with-title" onSubmit={handleSubmit}>
         <div className="nes-field">
-          <label>Your name</label>
+          <label>Tu nombre</label>
           <input
             className="nes-input"
             type="text"
@@ -41,7 +41,7 @@ const ConnectScreen: React.FC<Props> = ({ onConnect }) => {
           />
         </div>
         <div className="nes-field" style={{ marginTop: 24 }}>
-          <label>Room id</label>
+          <label>Nombre de Sala</label>
           <input
             className="nes-input"
             type="text"
@@ -62,7 +62,7 @@ const ConnectScreen: React.FC<Props> = ({ onConnect }) => {
           style={{ width: '100%', marginTop: 24 }}
           type="submit"
         >
-          Connect
+          Conectarse
         </button>
       </form>
     </>
