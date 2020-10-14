@@ -5,6 +5,8 @@ import * as mm from "music-metadata";
 
 import {Song} from "../types";
 
+import baseSongs from "./songs";
+
 const TOTAL_SONGS = 320;
 
 const generateString = (length: number) =>
@@ -73,15 +75,16 @@ const getMetadata = async (url: string) => {
 };
 
 const random = async () => {
-  const match = Math.round(Math.random() * (TOTAL_SONGS - 1)) + 1;
-  const url = `https://1986158210.rsc.cdn77.org/${match}.mp3`;
+  const match = Math.round(Math.random() * TOTAL_SONGS) + 1;
+  const url = `https://storage.googleapis.com/fiestita15/${match}.mp3`;
 
-  const metadata: any = await getMetadata(url);
+  const metadata = baseSongs[match - 1];
+  // const metadata: any = await getMetadata(url);
 
   let res: Song = {
     title: metadata?.title,
-    author: metadata?.artist,
-    year: metadata?.year,
+    author: metadata?.artist || "autor desconocido",
+    year: metadata?.year || 0,
     source: url,
   };
 
