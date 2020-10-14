@@ -360,7 +360,7 @@ const baseSongs = [
     id: 60,
   },
   {
-    title: "Gangster s Paradise",
+    title: "Gangsta's Paradise",
     year: 1995,
     artist: "Coolio",
     id: 61,
@@ -1348,7 +1348,7 @@ const baseSongs = [
     id: 240,
   },
   {
-    title: "Como olvidarla",
+    title: "Yerba mala",
     artist: "Rodrigo",
     id: 241,
   },
