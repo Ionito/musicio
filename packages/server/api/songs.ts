@@ -860,7 +860,7 @@ const baseSongs = [
   },
   {
     title: "Mil Horas",
-    artist: "Andres Calamaro",
+    artist: "Los abuelos de la nada",
     id: 147,
   },
   {
@@ -1084,7 +1084,7 @@ const baseSongs = [
   },
   {
     title: "En El Caribe Sur",
-    artist: "Fabiana Cantilo",
+    artist: "Man ray",
     id: 190,
   },
   {
@@ -1109,7 +1109,7 @@ const baseSongs = [
     id: 194,
   },
   {
-    title: "No hay nada mas dificil",
+    title: "si no te hubieras ido",
     artist: "Marco Antonio Solis",
     id: 195,
   },
@@ -1338,8 +1338,8 @@ const baseSongs = [
     id: 238,
   },
   {
-    title: "Livin La Vida Loca",
-    artist: "Ricky Martin",
+    title: "Valle de Valium",
+    artist: "Babasonicos",
     id: 239,
   },
   {
@@ -1762,6 +1762,305 @@ const baseSongs = [
     title: "Bailando",
     artist: "Paradisio",
     id: 320,
+  },
+{
+    title: "karakatiski",
+    artist: "Miguel del sel",
+    id: 321,
+  },{
+    title: "Mueve tu cucu",
+    artist: "Missiego",
+    id: 322,
+  },
+  {
+    title: "El tempano",
+    artist: "Juan Carlos Baglietto",
+    id: 323,
+  },
+  {
+    title: "Experiencia Religiosa",
+    artist: "Enrique iglesias",
+    id: 324,
+  },
+  {
+    title: "La flaca",
+    artist: "Jarabe de palo",
+    id: 325,
+  },
+  {
+    title: "Los Salieris De Charly",
+    artist: "Leon Gieco",
+    id: 326,
+  },
+  {
+    title: "Mundo agradable",
+    artist: "Seru Giran",
+    id: 327,
+  },
+  {
+    title: "Mujer amante",
+    artist: "Rata blanca",
+    id: 328,
+  },
+  {
+    title: "Chipi chipi",
+    artist: "Charly Garcia",
+    id: 329,
+  },
+  {
+    title: "Don",
+    artist: "Miranda",
+    id: 330,
+  },
+  {
+    title: "A rodar mi vida",
+    artist: "Fito Paez",
+    id: 331,
+  },
+  {
+    title: "Oye Como Va",
+    artist: "Santana",
+    id: 332,
+  },
+  {
+    title: "El mono relojero",
+    artist: "kapanga",
+    id: 333,
+  },
+  {
+    title: "Para No Verte Mas",
+    artist: "La Mosca Tse-Tse",
+    id: 334,
+  },
+  {
+    title: "La guitarra",
+    artist: "Los Autenticos Decadentes",
+    id: 335,
+  },
+  {
+    title: "Mi enfermedad",
+    artist: "Fabiana Cantilo",
+    id: 336,
+  },
+  {
+    title: "Amigos",
+    artist: "Enanitos verdes",
+    id: 337,
+  },
+  {
+    title: "Believe",
+    artist: "Cher",
+    id: 338,
+  },
+  {
+    title: "Estoy Aqui",
+    artist: "Shakira",
+    id: 339,
+  },
+  {
+    title: "A fuego lento",
+    artist: "Rosana",
+    id: 340,
+  },
+  {
+    title: "Angel",
+    artist: "Shaggy",
+    id: 341,
+  },
+  {
+    title: "Endulzame Los Oidos",
+    artist: "Patricia Sosa",
+    id: 342,
+  },
+  {
+    title: "Piel morena",
+    artist: "Thalia",
+    id: 343,
+  },
+  {
+    title: "Me Gustas Mucho",
+    artist: "Viejas Locas",
+    id: 344,
+  },
+  {
+    title: "Y Como Es El",
+    artist: "Jose Luis Perales",
+    id: 345,
+  },
+  {
+    title: "el tractor amarillo",
+    artist: "zapato veloz",
+    id: 346,
+  },
+  {
+    title: "Hoy te necesito",
+    artist: "Manuel Wirtz",
+    id: 347,
+  },
+  {
+    title: "Brillante Sobre El Mic",
+    artist: "Fito Paez",
+    id: 348,
+  },
+  {
+    title: "Arde La Ciudad",
+    artist: "La mancha de Rolando",
+    id: 349,
+  },
+  {
+    title: "Santeria",
+    artist: "Sublime",
+    id: 350,
+  },
+  {
+    title: "Provocame",
+    artist: "Chayanne",
+    id: 351,
+  },
+  {
+    title: "Vivir Sin Aire",
+    artist: "Maná",
+    id: 352,
+  },
+  {
+    title: "Sr. Cobranza",
+    artist: "Bersuit Vergarabat",
+    id: 353,
+  },
+  {
+    title: "Hacer un Puente",
+    artist: "La Franela",
+    id: 354,
+  },
+  {
+    title: "Aprender a volar",
+    artist: "Patricia Sosa",
+    id: 355,
+  },
+  {
+    title: "Te Conozco",
+    artist: "Ricardo Arjona",
+    id: 356,
+  },
+  {
+    title: "El talisman",
+    artist: "Rosana",
+    id: 357,
+  },
+  {
+    title: "Sin documentos" ,
+    artist: "Los Rodríguez",
+    id: 358,
+  },
+  {
+    title: "Arena Y Sol",
+    artist: "Marta Sanchez",
+    id: 359,
+  },
+  {
+    title: "Lo Echamos A Suertes",
+    artist: "Ella Baila Sola",
+    id: 360,
+  },
+  {
+    title: "Nunca quise",
+    artist: "Intoxicados",
+    id: 361,
+  },
+  {
+    title: "Vuelve",
+    artist: "Ricky Martin",
+    id: 362,
+  },
+  {
+    title: "Crazy",
+    artist: "Aerosmith",
+    id: 363,
+  },
+  {
+    title: "Me Haces Bien",
+    artist: "Jorge Drexler",
+    id: 364,
+  },
+  {
+    title: "Rock del pedazo",
+    artist: "Los ratones paranoicos",
+    id: 365,
+  },
+  {
+    title: "No podras",
+    artist: "Cristian Castro",
+    id: 366,
+  },
+  {
+    title: "Dime que no",
+    artist: "Ricardo Arjona",
+    id: 367,
+  },
+  {
+    title: "Bailar pegados",
+    artist: "Sergio dalma",
+    id: 368,
+  },
+  {
+    title: "Una casa con 10 pinos",
+    artist: "Pappo",
+    id: 369,
+  },
+  {
+    title: "Juntos a la par",
+    artist: "Pappo",
+    id: 370,
+  },
+  {
+    title: "Murguita del Sur",
+    artist: "Bersuit Vergarabat",
+    id: 371,
+  },
+  {
+    title: "Balada del diablo y la muerte",
+    artist: "La renga",
+    id: 372,
+  },
+  {
+    title: "De Musica Ligera",
+    artist: "Soda Stereo",
+    id: 373,
+  },
+  {
+    title: "Rezo por vos",
+    artist: "Charly Garcia",
+    id: 374,
+  },
+  {
+    title: "Lemon Tree",
+    artist: "Fools Garden",
+    id: 375,
+  },
+  {
+    title: "Salud, Dinero y amor",
+    artist: "los rodriguez",
+    id: 376,
+  },
+  {
+    title: "Cuando pase el temblor",
+    artist: "Soda stereo",
+    id: 377,
+  },
+  {
+    title: "El amor es más fuerte",
+    artist: "Ulises Butrón",
+    id: 378,
+  },
+  {
+    title: "Bajo La Rambla",
+    artist: "Andres Calamaro",
+    id: 379,
+  },
+  {
+    title: "Ingrata",
+    artist: "Café Tacuba",
+    id: 379,
   },
 ];
 

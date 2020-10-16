@@ -20,7 +20,7 @@ const api = {
   setup: async (name: string) => {
     await rooms.set(name, {
       status: "lobby",
-      song: await musicApi.random(),
+      song: await musicApi.random([]),
       guessedTitles: [],
       guessedAuthors: [],
       winner: [],
@@ -28,6 +28,7 @@ const api = {
       timerId: null,
       rounds: GAME_ROUNDS,
       ownerId: null,
+      played: [],
     });
   },
   reset: async (name: string) => {
@@ -35,7 +36,7 @@ const api = {
 
     rooms.set(name, {
       status: "playing",
-      song: await musicApi.random(),
+      song: await musicApi.random(room.played),
       winner: [],
       guessedTitles: [],
       guessedAuthors: [],
@@ -43,6 +44,7 @@ const api = {
       timerId: null,
       rounds: room.rounds - 1,
       ownerId: room.ownerId,
+      played: room.played,
     });
   },
   resetAll: async (name: string) => {
@@ -54,7 +56,7 @@ const api = {
 
     rooms.set(name, {
       status: "playing",
-      song: await musicApi.random(),
+      song: await musicApi.random([]),
       winner: [],
       guessedTitles: [],
       guessedAuthors: [],
@@ -62,6 +64,7 @@ const api = {
       timerId: null,
       rounds: GAME_ROUNDS,
       ownerId: room.ownerId,
+      played: [],
     });
   },
   connect: (name: string, id: string, player: string) => {

@@ -36,12 +36,16 @@ const finishGameAndRestart = (room: string) => {
       setTimeout(async () => {
         await roomApi.reset(room);
 
+        const state = roomApi.get(room);
+
         const timeoutId: NodeJS.Timeout = setTimeout(() => timeout(room), TIME_TO_ASSERT);
         roomApi.update(room, {
           timerId: timeoutId,
+          played: [...state.played, state.song.id],
         });
         server.in(room).emit("startTimer");
         server.in(room).emit("game", roomApi.game(room));
+        console.log("IONI", roomApi.get(room));
       }, 2500);
     } else {
       roomApi.update(room, {
@@ -52,6 +56,10 @@ const finishGameAndRestart = (room: string) => {
       //el juego vuelve a empezar solo en 30 seg
       setTimeout(async () => {
         await roomApi.resetAll(room);
+        const state = roomApi.get(room);
+        roomApi.update(room, {
+          played: [state.song.id],
+        });
 
         const timeoutId: NodeJS.Timeout = setTimeout(() => timeout(room), TIME_TO_ASSERT);
         roomApi.update(room, {
@@ -69,6 +77,10 @@ server.on("connection", async (socket) => {
 
   if (!roomApi.get(room)) {
     await roomApi.setup(room);
+    const state = roomApi.get(room);
+    roomApi.update(room, {
+      played: [state.song.id],
+    });
   }
 
   socket.join(room, () => {
@@ -136,8 +148,8 @@ server.on("connection", async (socket) => {
 
     //pregunto si la mitad de los participantes adivinaron y termino la partida
     if (
-      state.players.length === 1 ||
-      currentWinners.length >= Math.floor(state.players.length / 2)
+      (currentWinners.length === 1 && state.players.length === 1) ||
+      (state.players.length > 1 && currentWinners.length >= Math.floor(state.players.length / 2))
     ) {
       console.log("Game Finish - all guess");
       finishGameAndRestart(room);

@@ -7,7 +7,7 @@ import {Song} from "../types";
 
 import baseSongs from "./songs";
 
-const TOTAL_SONGS = 320;
+const TOTAL_SONGS = 380;
 
 const generateString = (length: number) =>
   Array(length)
@@ -41,6 +41,7 @@ const quitarAcentosYApostrofes = (cadena: string) => {
     ó: "o",
     ú: "u",
     "'": "",
+    ".": "",
   };
   return cadena
     .split("")
@@ -74,21 +75,25 @@ const getMetadata = async (url: string) => {
   });
 };
 
-const random = async () => {
-  const match = Math.round(Math.random() * TOTAL_SONGS) + 1;
+const random = async (playedArray: number[]) => {
+  let match;
+  do {
+    match = Math.round(Math.random() * TOTAL_SONGS) + 1;
+  } while (playedArray.includes(match));
+
   const url = `https://storage.googleapis.com/fiestita15/${match}.mp3`;
 
   const metadata = baseSongs[match - 1];
   // const metadata: any = await getMetadata(url);
 
   let res: Song = {
+    id: match,
     title: metadata?.title,
     author: metadata?.artist || "autor desconocido",
     year: metadata?.year || 0,
     source: url,
   };
-
-  console.log("res", res);
+  console.log(res);
   return res;
 };
 

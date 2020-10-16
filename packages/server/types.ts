@@ -5,6 +5,7 @@ export interface Player {
 }
 
 export interface Song {
+  id: number;
   title: string;
   author: string;
   year?: number;
@@ -22,6 +23,7 @@ export interface Room {
   timerId: NodeJS.Timeout | null;
   rounds: number;
   ownerId: null | string;
+  played: number[];
 }
 /* 
 export interface Game extends Omit<Room, "pokemon"> {
