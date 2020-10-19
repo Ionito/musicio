@@ -30,7 +30,7 @@ const baseSongs = [
     id: 5,
   },
   {
-    title: "tu florcita",
+    title: "Tu florcita",
     year: 2006,
     artist: "Agrupacion Marilin",
     id: 6,
@@ -48,13 +48,13 @@ const baseSongs = [
     id: 8,
   },
   {
-    title: "violeta",
+    title: "Violeta",
     year: 1990,
     artist: "Alcides",
     id: 9,
   },
   {
-    title: "Corazon Partio",
+    title: "Corazón Partio",
     year: 2004,
     artist: "Alejandro Sanz",
     id: 10,
@@ -66,9 +66,9 @@ const baseSongs = [
     id: 11,
   },
   {
-    title: "PIZZA CONMIGO",
+    title: "Pizza Conmigo",
     year: 1999,
-    artist: "ALFREDO CASERO",
+    artist: "Alfredo Casero",
     id: 12,
   },
   {
@@ -108,15 +108,15 @@ const baseSongs = [
     id: 18,
   },
   {
-    title: "crimenes perfectos",
+    title: "Crimenes perfectos",
     year: 1997,
-    artist: "andres calamaro",
+    artist: "Andrés calamaro",
     id: 19,
   },
   {
     title: "Flaca",
     year: 1997,
-    artist: "Andres Calamaro",
+    artist: "Andrés Calamaro",
     id: 20,
   },
   {
@@ -140,7 +140,7 @@ const baseSongs = [
   {
     title: " Hacelo por mi",
     year: 1990,
-    artist: "ATTAQUE 77",
+    artist: "Attaque 77",
     id: 24,
   },
   {
@@ -152,7 +152,7 @@ const baseSongs = [
   {
     title: "Solo se vive una vez",
     year: 1996,
-    artist: "azucar moreno",
+    artist: "Azucar moreno",
     id: 26,
   },
   {
@@ -1594,12 +1594,12 @@ const baseSongs = [
     id: 287,
   },
   {
-    title: "TRAICION",
-    artist: "MIRANDA",
+    title: "Traición",
+    artist: "Miranda",
     id: 288,
   },
   {
-    title: "Lubi Lubi Lubi",
+    title: "Brother Louie",
     artist: "modern talking",
     id: 289,
   },
@@ -1619,7 +1619,8 @@ const baseSongs = [
     id: 292,
   },
   {
-    title: "The Police - Message In A Bottle",
+    title: "Message In A Bottle",
+    artist: "The Police",
     id: 293,
   },
   {
@@ -1735,7 +1736,7 @@ const baseSongs = [
   {
     title: "Traicion a la mejicana",
     year: 1997,
-    artist: "Zimbabwe",
+    artist: "La Zimbabwe",
     id: 315,
   },
   {
@@ -1744,12 +1745,12 @@ const baseSongs = [
     id: 316,
   },
   {
-    title: "It s Tricky",
+    title: "It's Tricky",
     artist: "RUN-DMC",
     id: 317,
   },
   {
-    title: "I Don t Feel Like Dancin",
+    title: "I Don't Feel Like Dancin",
     artist: "Scissor Sisters",
     id: 318,
   },

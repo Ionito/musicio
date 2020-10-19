@@ -40,8 +40,6 @@ const quitarAcentosYApostrofes = (cadena: string) => {
     í: "i",
     ó: "o",
     ú: "u",
-    "'": "",
-    ".": "",
   };
   return cadena
     .split("")
@@ -51,8 +49,8 @@ const quitarAcentosYApostrofes = (cadena: string) => {
 };
 
 const matches = (query: string, match: string) => {
-  const _query = quitarAcentosYApostrofes(query.replace(/\'|\s/g, "").toLowerCase());
-  const _match = quitarAcentosYApostrofes(match.replace(/\'|\s/g, "").toLowerCase());
+  const _query = quitarAcentosYApostrofes(query.replace(/\'|\s|\./g, "").toLowerCase());
+  const _match = quitarAcentosYApostrofes(match.replace(/\'|\s|\./g, "").toLowerCase());
 
   return _query === _match;
 };
