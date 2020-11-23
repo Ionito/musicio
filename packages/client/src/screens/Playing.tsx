@@ -13,11 +13,24 @@ interface Props {
   matchA: boolean;
 }
 
+const changedVolume = (e: any) => {
+  if (e.target.volume) {
+    console.log(e.target.volume);
+    localStorage.setItem('playervolume', e.target.volume);
+  }
+};
+
 const audioPlayer = (source: string | undefined) => (
   <AudioPlayer
     autoPlay
     src={source}
     showJumpControls={false}
+    onVolumeChange={e => changedVolume(e)}
+    volume={
+      localStorage.getItem('playervolume')
+        ? parseFloat(localStorage.getItem('playervolume') || '')
+        : 1
+    }
     customProgressBarSection={[
       RHAP_UI.CURRENT_TIME,
       <div key="pepe" style={{ flex: 'auto' }}></div>,
