@@ -2,6 +2,7 @@ import * as fs from "fs";
 
 import fetch from "node-fetch";
 import * as mm from "music-metadata";
+import levenshtein from "js-levenshtein";
 
 import {Song} from "../types";
 
@@ -52,7 +53,7 @@ const matches = (query: string, match: string) => {
   const _query = quitarAcentosYApostrofes(query.replace(/\'|\s|\./g, "").toLowerCase());
   const _match = quitarAcentosYApostrofes(match.replace(/\'|\s|\./g, "").toLowerCase());
 
-  return _query === _match;
+  return _query === _match || levenshtein(_query, _match) <= 2;
 };
 
 const getMetadata = async (url: string) => {
