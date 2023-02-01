@@ -19,4 +19,3 @@ jobs:
           heroku_app_name: ${{secrets.HEROKU_BACKEND_APP_NAME}}
           heroku_email: "artemarsupial@gmail.com"
           appdir: "packages/server" # <- This will point to the api folder in your project
-          remote_branch: "heroku-backend"
